@@ -1,0 +1,25 @@
+{
+  "name": "mofron-parts-inputtext",
+  "version": "0.0.1",
+  "description": "inputtext parts of mofron",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mofron" : "^0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simpart/mofron-parts-inputtext.git"
+  },
+  "keywords": [
+    "mofron"
+  ],
+  "author": "simpart",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/simpart/mofron-parts-inputtext/issues"
+  },
+  "homepage": "https://github.com/simpart/mofron-parts-inputtext#readme"
+}
