@@ -1,6 +1,6 @@
 {
   "name": "mofron-parts-inputtext",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "inputtext parts of mofron",
   "main": "index.js",
   "scripts": {

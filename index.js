@@ -4,7 +4,7 @@
  * @author simpart
  */
 
-module.exports = class extends mofron.parts.Base {
+mofron.parts.InputText = class extends mofron.parts.Base {
     getTarget() {
         try {
             return this.vdom.getChild(0);
