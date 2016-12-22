@@ -5,6 +5,18 @@
  */
 
 mofron.parts.InputText = class extends mofron.parts.Base {
+    
+    constructor (prm) {
+        try {
+            super(prm);
+            this.txt_val = null;
+            this.text(prm);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     getTarget() {
         try {
             return this.vdom.getChild(0);
@@ -16,7 +28,10 @@ mofron.parts.InputText = class extends mofron.parts.Base {
     
     initContents (vd, prm) {
         try {
+            /* set tag */
             vd.addChild(new mofron.util.Vdom('input'));
+            
+            /* set default size */
             this.width(200);
             this.height(25);
         } catch (e) {
@@ -28,7 +43,7 @@ mofron.parts.InputText = class extends mofron.parts.Base {
     width (val) {
         try {
             var _val  = (val === undefined) ? null : val;
-            var input = this.getTarget();
+            var input = this.getStyleTgt();
             if (null === _val) {
                 return input.getStyle('width');
             }
@@ -45,7 +60,7 @@ mofron.parts.InputText = class extends mofron.parts.Base {
     height (val) {
         try {
             var _val = (val === undefined) ? null : val;
-            var input = this.getTarget();
+            var input = this.getStyleTgt();
             if (null === _val) {
                 return input.getStyle('height');
             }
@@ -59,14 +74,35 @@ mofron.parts.InputText = class extends mofron.parts.Base {
         }
     }
     
-    getText() {
+    text (val) {
         try {
-            var vd = this.getTarget();
+            var _val = (val === undefined) ? null : val;
+            var vd   = this.getTarget();
             if (false === vd.isPushed()) {
+                if (null !== _val) {
+                    this.txt_val = _val;
+                    return;
+                }
                 return null;
             }
             var dm = document.querySelector('#'+vd.getId());
-            return dm.value;
+            if (null !== _val) {
+                dm.value = _val;
+            } else {
+                return dm.value; 
+            }
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    init (disp) {
+        try {
+            super.init(disp);
+            if (null !== this.txt_val) {
+                this.text(this.txt_val);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;

@@ -72,6 +72,7 @@
 	            var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, prm));
 
 	            _this.txt_val = null;
+	            _this.text(prm);
 	        } catch (e) {
 	            console.error(e.stack);
 	            throw e;
@@ -95,11 +96,6 @@
 	            try {
 	                /* set tag */
 	                vd.addChild(new mofron.util.Vdom('input'));
-
-	                /* set default value */
-	                if (null !== prm) {
-	                    this.text(prm);
-	                }
 
 	                /* set default size */
 	                this.width(200);

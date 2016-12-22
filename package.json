@@ -1,13 +1,13 @@
 {
   "name": "mofron-parts-inputtext",
-  "version": "0.0.4",
+  "version": "0.0.8",
   "description": "inputtext parts of mofron",
-  "main": "dist/mofron-parts-inputtext.js",
+  "main": "dist/inputtext.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mofron": "^0.1.10"
+    "mofron": "^0.1.12"
   },
   "repository": {
     "type": "git",

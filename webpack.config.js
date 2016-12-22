@@ -1,8 +1,8 @@
 module.exports = {
-    entry: __dirname + '/src/parts.js',
+    entry: __dirname + '/src/inputtext.js',
     output: {
         path: __dirname + '/dist',
-        filename: 'mofron-parts-inputtext.js'
+        filename: 'inputtext.js'
     },
     module: {
         loaders: [{
