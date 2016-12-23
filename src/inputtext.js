@@ -1,10 +1,10 @@
 /**
- * @file   Input.js
- * @brief  Base of UI InputText Class
+ * @file   inputtext.js
+ * @brief  InputText Component Class
  * @author simpart
  */
 
-mofron.parts.InputText = class extends mofron.parts.Base {
+mofron.comp.InputText = class extends mofron.comp.Base {
     
     constructor (prm) {
         try {

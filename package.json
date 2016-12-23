@@ -1,7 +1,7 @@
 {
-  "name": "mofron-parts-inputtext",
-  "version": "0.0.8",
-  "description": "inputtext parts of mofron",
+  "name": "mofron-comp-inputtext",
+  "version": "0.0.9",
+  "description": "inputtext component for mofron",
   "main": "dist/inputtext.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simpart/mofron-parts-inputtext.git"
+    "url": "git+https://github.com/simpart/mofron-comp-inputtext.git"
   },
   "keywords": [
     "mofron"
@@ -19,9 +19,9 @@
   "author": "simparts",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/simpart/mofron-parts-inputtext/issues"
+    "url": "https://github.com/simpart/mofron-comp-inputtext/issues"
   },
-  "homepage": "https://github.com/simpart/mofron-parts-inputtext#readme",
+  "homepage": "https://github.com/simpart/mofron-comp-inputtext#readme",
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",

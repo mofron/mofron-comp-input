@@ -1,1 +1,2 @@
-# mofron-parts-inputtext
+# mofron-comp-inputtext
+InputText Component for mofron
