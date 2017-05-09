@@ -17,10 +17,6 @@ mofron.comp.Input = class extends mofron.comp.Form {
         try {
             super();
             this.name('Input');
-            
-            this.m_text   = null;
-            this.m_maxlen = null;
-            
             this.prmOpt(prm_opt);
         } catch (e) {
             console.error(e.stack);
@@ -31,28 +27,25 @@ mofron.comp.Input = class extends mofron.comp.Form {
     initDomConts (prm) {
         try {
             /* init tag */
-            var input = new mofron.Dom('input');
-            input.attr('type', 'text');
-            this.vdom().addChild(input);
-            this.target(input);
-            
-            /* set default text */
-            if (null !== prm) {
-                if ('string' !== typeof prm) {
-                    throw new Error('invalid parameter');
-                }
-                this.text(prm);
-                input.attr('value', prm);
-            }
-            
-            /* set max length */
-            if (null !== this.maxLength()) {
-                input.attr('maxlength', '' + this.maxLength());
-            }
-            
-            /* set default size */
-            this.width(200);
-            this.height(25);
+            var lbl = new mofron.Dom({
+                          tag    : 'div',
+                          target : this,
+                      });
+            var inp = new mofron.Dom({
+                          tag    : 'input',
+                          target : this,
+                          attr   : {'type' : 'text'}
+                      });
+            this.vdom().addChild(
+                new mofron.Dom({
+                    tag    : 'div',
+                    target : this,
+                    child  : [lbl, inp]
+                })
+            );
+            this.target(lbl);
+            this.addChild(this.label());
+            this.target(inp);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -66,10 +59,9 @@ mofron.comp.Input = class extends mofron.comp.Form {
                 return mofron.func.getLength(this.style('width'));
             }
             /* setter */
-            if ('number' !== (typeof val)) {
-                throw new Error('invalid parameter');
-            }
-            this.style('width', val + 'px');
+            this.style({
+                'width' : ('number' === typeof val) ? val + 'px' : val
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -83,10 +75,9 @@ mofron.comp.Input = class extends mofron.comp.Form {
                 return mofron.func.getLength(this.style('height'));
             }
             /* setter */
-            if ('number' != (typeof val)) {
-                throw new Error('invalid parameter');
-            }
-            this.style('height', val + 'px');
+            this.style({
+                'height' : ('number' === typeof val) ? val + 'px' : val
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -97,20 +88,13 @@ mofron.comp.Input = class extends mofron.comp.Form {
         try {
             if (undefined === val) {
                 /* getter */
-                if (true === this.isRendered()) {
-                    return document.querySelector('#' + this.target().getId()).value;
-                } else {
-                    return this.m_text;
-                }
+                return this.target().prop('value');
             }
             /* setter */
             if ('string' !== typeof val) {
                 throw new Error('invalid parameter');
             }
-            this.m_text = val;
-            if (true === this.isRendered()) {
-                document.querySelector('#' + this.target().getId()).value = val;
-            }
+            this.target().prop({value : val});
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -149,15 +133,48 @@ mofron.comp.Input = class extends mofron.comp.Form {
         try {
             if (undefined === len) {
                 /* getter */
-                return this.m_maxlen;
+                return this.target().attr('maxlength');
             }
             /* setter */
             if ('number' !== typeof len) {
                 throw new Error('invalid parameter');
             }
-            this.m_maxlen = len;
-            if (true === this.isRendered()) {
-                this.target().attr('maxlength', '' + len);
+            this.target().attr({maxlength : len});
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    label (lbl) {
+        try {
+            if (undefined === lbl) {
+                /* getter */
+                if (undefined === this.m_label) {
+                    this.label('');
+                }
+                return this.m_label;
+            }
+            /* setter */
+            if ( !( ('string' === typeof lbl) ||
+                    (true     === mofron.func.isInclude(lbl, 'Text')) ) ) {
+                throw new Error('invalid parameter');
+            }
+            
+            if ('string' === typeof lbl) {
+                if (undefined === this.m_label) {
+                    this.m_label = new mofron.comp.Text(lbl);
+                } else {
+                    this.m_label.text(lbl);
+                }
+            } else {
+                if (0 !== this.child().length) {
+                    this.target(this.vdom().child()[0].child()[0]);
+                    this.updChild(0, lbl);
+                    this.target(this.vdom().child()[0].child()[1]);
+                    this.vdom().child()[0].child()[0].child().pop()
+                }
+                this.m_label = lbl;
             }
         } catch (e) {
             console.error(e.stack);
