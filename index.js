@@ -58,9 +58,12 @@ mofron.comp.Input = class extends mofron.comp.Form {
                 /* getter */
                 return mofron.func.getLength(this.style('width'));
             }
+            this.vdom().style({
+                'width' : ('number' === typeof val) ? val + 'px' : val
+            });
             /* setter */
             this.style({
-                'width' : ('number' === typeof val) ? val + 'px' : val
+                'width' : '100%'
             });
         } catch (e) {
             console.error(e.stack);
@@ -105,7 +108,7 @@ mofron.comp.Input = class extends mofron.comp.Form {
         try {
             if (true === this.require()) {
                 if ('' === this.value()) {
-                    return "empty value";
+                    return ('' === this.label().text()) ? 'empty value' : this.label().text() + ' is required';
                 }
             }
             return null;
@@ -140,6 +143,23 @@ mofron.comp.Input = class extends mofron.comp.Form {
                 throw new Error('invalid parameter');
             }
             this.target().attr({maxlength : len});
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    secret (flg) {
+        try {
+            if (undefined === flg) {
+                /* getter */
+                return ('password' === this.target().attr('type')) ? true : false;
+            }
+            /* setter */
+            if ('boolean' !== typeof flg) {
+                throw new Error('invalid parameter');
+            }
+            this.target().attr({type : 'password'});
         } catch (e) {
             console.error(e.stack);
             throw e;
