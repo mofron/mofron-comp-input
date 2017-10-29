@@ -98,6 +98,7 @@ mofron.comp.Input = class extends mofron.comp.Form {
                 throw new Error('invalid parameter');
             }
             this.target().prop({value : val});
+            this.target().attr({value : val});
         } catch (e) {
             console.error(e.stack);
             throw e;
