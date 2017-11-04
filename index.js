@@ -3,21 +3,22 @@
  * @brief  input component class
  * @author simpart
  */
+let mf = require('mofron');
+let Form = require('mofron-comp-form');
+let Text = require('mofron-comp-text');
 
-require('mofron-comp-form');
-
-mofron.comp.Input = class extends mofron.comp.Form {
+mf.comp.Input = class extends Form {
     /**
      * initialize inputtext component
      *
-     * @param prm_opt : (string) default value
-     * @param prm_opt : (object) option
+     * @param po : (string) default value
+     * @param po : (object) option
      */
-    constructor (prm_opt) {
+    constructor (po) {
         try {
             super();
             this.name('Input');
-            this.prmOpt(prm_opt);
+            this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -26,17 +27,15 @@ mofron.comp.Input = class extends mofron.comp.Form {
     
     initDomConts (prm) {
         try {
+            super.initDomConts();
             /* init tag */
-            var lbl = new mofron.Dom({
-                          tag    : 'div',
-                          target : this,
-                      });
+            var lbl = new mofron.Dom('div',this);
             var inp = new mofron.Dom({
                           tag    : 'input',
                           target : this,
                           attr   : {'type' : 'text'}
                       });
-            this.vdom().addChild(
+            this.adom().addChild(
                 new mofron.Dom({
                     tag    : 'div',
                     target : this,
@@ -54,17 +53,17 @@ mofron.comp.Input = class extends mofron.comp.Form {
     
     width (val) {
         try {
-            if (undefined === val) {
-                /* getter */
-                return mofron.func.getLength(this.style('width'));
+            let ret = super.width(val);
+            if (undefined === ret) {
+                this.adom().style({
+                    'width' : ('number' === typeof val) ? val + 'px' : val
+                });
+                /* setter */
+                this.style({
+                    'width' : '100%'
+                });
             }
-            this.vdom().style({
-                'width' : ('number' === typeof val) ? val + 'px' : val
-            });
-            /* setter */
-            this.style({
-                'width' : '100%'
-            });
+            return ret;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -73,14 +72,11 @@ mofron.comp.Input = class extends mofron.comp.Form {
     
     height (val) {
         try {
-            if (undefined === val) {
-                /* getter */
-                return mofron.func.getLength(this.style('height'));
+            let ret = super.height(val);
+            if (undefined === ret) {
+                this.label().size(val);
             }
-            /* setter */
-            this.style({
-                'height' : ('number' === typeof val) ? val + 'px' : val
-            });
+            return val;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -184,7 +180,7 @@ mofron.comp.Input = class extends mofron.comp.Form {
             
             if ('string' === typeof lbl) {
                 if (undefined === this.m_label) {
-                    this.m_label = new mofron.comp.Text(lbl);
+                    this.m_label = new Text(lbl);
                 } else {
                     this.m_label.text(lbl);
                 }
@@ -203,5 +199,4 @@ mofron.comp.Input = class extends mofron.comp.Form {
         }
     }
 }
-mofron.comp.input = {};
 module.exports = mofron.comp.Input;
