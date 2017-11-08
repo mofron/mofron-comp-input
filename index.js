@@ -29,14 +29,14 @@ mf.comp.Input = class extends Form {
         try {
             super.initDomConts();
             /* init tag */
-            var lbl = new mofron.Dom('div',this);
-            var inp = new mofron.Dom({
+            var lbl = new mf.Dom('div',this);
+            var inp = new mf.Dom({
                           tag    : 'input',
                           target : this,
                           attr   : {'type' : 'text'}
                       });
             this.adom().addChild(
-                new mofron.Dom({
+                new mf.Dom({
                     tag    : 'div',
                     target : this,
                     child  : [lbl, inp]
@@ -58,7 +58,6 @@ mf.comp.Input = class extends Form {
                 this.adom().style({
                     'width' : ('number' === typeof val) ? val + 'px' : val
                 });
-                /* setter */
                 this.style({
                     'width' : '100%'
                 });
