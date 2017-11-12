@@ -25,18 +25,26 @@ mf.comp.Input = class extends Form {
         }
     }
     
+    addChild (chd, idx) {
+        try {
+            super.addChild(chd, idx, false);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     initDomConts (prm) {
         try {
-            super.initDomConts();
             /* init tag */
-            var lbl = new mf.Dom('div',this);
-            var inp = new mf.Dom({
+            var lbl = new mofron.Dom('div',this);
+            var inp = new mofron.Dom({
                           tag    : 'input',
                           target : this,
                           attr   : {'type' : 'text'}
                       });
             this.adom().addChild(
-                new mf.Dom({
+                new mofron.Dom({
                     tag    : 'div',
                     target : this,
                     child  : [lbl, inp]
@@ -53,16 +61,17 @@ mf.comp.Input = class extends Form {
     
     width (val) {
         try {
-            let ret = super.width(val);
-            if (undefined === ret) {
-                this.adom().style({
-                    'width' : ('number' === typeof val) ? val + 'px' : val
-                });
-                this.style({
-                    'width' : '100%'
-                });
+            if (undefined === val) {
+                /* getter */
+                return mofron.func.getLength(this.style('width'));
             }
-            return ret;
+            this.adom().style({
+                'width' : ('number' === typeof val) ? val + 'px' : val
+            });
+            /* setter */
+            this.style({
+                'width' : '100%'
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -71,11 +80,22 @@ mf.comp.Input = class extends Form {
     
     height (val) {
         try {
-            let ret = super.height(val);
-            if (undefined === ret) {
-                this.label().size(val);
+            if (undefined === val) {
+                /* getter */
+                return mofron.func.getLength(this.style('height')) * 2;
             }
-            return val;
+            /* setter */
+            this.style({
+                'height' : ('number' === typeof val) ? val/2 + 'px' : val
+            });
+            let fnt_siz = val;
+            if ('number' === typeof fnt_siz) {
+                fnt_siz = val/2 + 'px';
+            }
+            this.label().size(fnt_siz);
+            this.style({
+                'font-size' : fnt_siz
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -198,4 +218,5 @@ mf.comp.Input = class extends Form {
         }
     }
 }
+mofron.comp.input = {};
 module.exports = mofron.comp.Input;
