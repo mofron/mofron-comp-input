@@ -82,7 +82,7 @@ mf.comp.Input = class extends Form {
         try {
             if (undefined === val) {
                 /* getter */
-                return mofron.func.getLength(this.style('height')) * 2;
+                return (mofron.func.getLength(this.style('height')) * 2) + 5;
             }
             /* setter */
             this.style({
