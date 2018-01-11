@@ -17,6 +17,7 @@ mf.comp.Input = class extends Form {
     constructor (po) {
         try {
             super();
+            this.m_defsiz = true;
             this.name('Input');
             this.prmOpt(po);
         } catch (e) {
@@ -36,29 +37,34 @@ mf.comp.Input = class extends Form {
     
     initDomConts (prm) {
         try {
-            /* init tag */
-            var lbl = new mofron.Dom('div',this);
+            /* set wrap dom */
+            this.adom().addChild(new mf.Dom('div', this));
             var inp = new mofron.Dom({
                           tag    : 'input',
                           target : this,
-                          attr   : {'type' : 'text'}
+                          attr   : { 'type' : 'text' }
                       });
-            this.adom().addChild(
-                new mofron.Dom({
-                    tag    : 'div',
-                    target : this,
-                    child  : [lbl, inp]
-                })
-            );
-            this.target(lbl);
             if (null !== prm) {
                 this.label(prm);
             }
+            /* add label */
             this.addChild(this.label());
+            /* add input */
+            this.target().addChild(inp);
+            
             this.target(inp);
+            /* default size */
+            this.size(150,30,true);
         } catch (e) {
             console.error(e.stack);
             throw e;
+        }
+    }
+    
+    size (x,y,f) {
+        super.size(x,y);
+        if (undefined === f) {
+            this.m_defsiz = false;
         }
     }
     
@@ -69,7 +75,7 @@ mf.comp.Input = class extends Form {
                 return mofron.func.getLength(this.style('width'));
             }
             this.adom().style({
-                'width' : ('number' === typeof val) ? val + 'px' : val
+                'width' : ('number' === typeof val) ? (val-6) + 'px' : val
             });
             /* setter */
             this.style({
@@ -83,22 +89,30 @@ mf.comp.Input = class extends Form {
     
     height (val) {
         try {
+            let lbl_flg = ('' === this.label().text()) ? false : true;
             if (undefined === val) {
                 /* getter */
-                return (mofron.func.getLength(this.style('height')) * 3) + 5;
+                return (undefined === this.m_height) ? null : this.m_height;
             }
             /* setter */
-            this.style({
-                'height' : ('number' === typeof val) ? val/2 + 'px' : val
-            });
-            let fnt_siz = val;
-            if ('number' === typeof fnt_siz) {
-                fnt_siz = val/2 + 'px';
+            if ('number' !== typeof val) {
+                throw new Error('invalid parameter');
             }
-            this.label().size(fnt_siz);
+            
+            this.adom().style({ 'height' : val + 'px' });
+            
+            let inp_siz = val;
+            if (true === lbl_flg) {
+                /* exists label */
+                this.label().size(val/2);
+                inp_siz = val/2;
+            }
+            
             this.style({
-                'font-size' : fnt_siz
+                'height' : (inp_siz - 6) + 'px'
             });
+            
+            this.m_height = val;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -214,6 +228,9 @@ mf.comp.Input = class extends Form {
                     this.vdom().child()[0].child()[0].child().pop()
                 }
                 this.m_label = lbl;
+            }
+            if (('' !== this.label().text()) && (true === this.m_defsiz)) {
+                this.height(this.height()*2);
             }
         } catch (e) {
             console.error(e.stack);
