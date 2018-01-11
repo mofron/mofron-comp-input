@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-input",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "description": "input component for mofron",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simpart/mofron-comp-inputtext.git"
+    "url": "git+https://github.com/mofron/mofron-comp-input.git"
   },
   "keywords": [
     "mofron"
@@ -16,7 +16,7 @@
   "author": "simparts",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/simpart/mofron-comp-input/issues"
+    "url": "https://github.com/mofron/mofron-comp-input/issues"
   },
-  "homepage": "https://github.com/simpart/mofron-comp-input#readme"
+  "homepage": "https://github.com/mofron/mofron-comp-input#readme"
 }

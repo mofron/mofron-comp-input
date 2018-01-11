@@ -51,6 +51,9 @@ mf.comp.Input = class extends Form {
                 })
             );
             this.target(lbl);
+            if (null !== prm) {
+                this.label(prm);
+            }
             this.addChild(this.label());
             this.target(inp);
         } catch (e) {
@@ -82,7 +85,7 @@ mf.comp.Input = class extends Form {
         try {
             if (undefined === val) {
                 /* getter */
-                return (mofron.func.getLength(this.style('height')) * 2) + 5;
+                return (mofron.func.getLength(this.style('height')) * 3) + 5;
             }
             /* setter */
             this.style({
