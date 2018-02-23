@@ -109,7 +109,8 @@ mf.comp.Input = class extends Form {
             }
             
             this.style({
-                'height' : (inp_siz - 6) + 'px'
+                'height'    : (inp_siz - 6) + 'px',
+                'font-size' : (inp_siz - 10) + 'px'
             });
             
             this.m_height = val;
