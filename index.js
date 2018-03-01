@@ -104,8 +104,11 @@ mf.comp.Input = class extends Form {
             let inp_siz = val;
             if (true === lbl_flg) {
                 /* exists label */
-                this.label().size(val/2);
-                inp_siz = val/2;
+                //this.label().size(val/2);
+                inp_siz = val - this.label().size();
+                if (0 > inp_siz) {
+                    throw new Error('invalid size');
+                }
             }
             
             this.style({
@@ -223,10 +226,7 @@ mf.comp.Input = class extends Form {
                 }
             } else {
                 if (0 !== this.child().length) {
-                    this.target(this.vdom().child()[0].child()[0]);
-                    this.updChild(0, lbl);
-                    this.target(this.vdom().child()[0].child()[1]);
-                    this.vdom().child()[0].child()[0].child().pop()
+                    this.updChild(this.label(), lbl);
                 }
                 this.m_label = lbl;
             }
@@ -239,5 +239,4 @@ mf.comp.Input = class extends Form {
         }
     }
 }
-mofron.comp.input = {};
 module.exports = mofron.comp.Input;
