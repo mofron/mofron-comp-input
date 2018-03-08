@@ -17,7 +17,6 @@ mf.comp.Input = class extends Form {
     constructor (po) {
         try {
             super();
-            this.m_defsiz = true;
             this.name('Input');
             this.prmOpt(po);
         } catch (e) {
@@ -38,33 +37,29 @@ mf.comp.Input = class extends Form {
     initDomConts (prm) {
         try {
             /* set wrap dom */
-            this.adom().addChild(new mf.Dom('div', this));
-            var inp = new mofron.Dom({
+            this.adom().addChild(
+                new mf.Dom('div', this)
+            );
+            var inp = new mf.Dom({
                           tag    : 'input',
                           target : this,
                           attr   : { 'type' : 'text' }
                       });
-            if (null !== prm) {
+            /* add label */
+            this.addChild(new Text(''));
+            if (undefined !== prm) {
                 this.label(prm);
             }
-            /* add label */
-            this.addChild(this.label());
+            
             /* add input */
             this.target().addChild(inp);
-            
             this.target(inp);
-            /* default size */
-            this.size(150,30,true);
+            
+            /* set default size */
+            this.size(150, 25);
         } catch (e) {
             console.error(e.stack);
             throw e;
-        }
-    }
-    
-    size (x,y,f) {
-        super.size(x,y);
-        if (undefined === f) {
-            this.m_defsiz = false;
         }
     }
     
@@ -72,14 +67,14 @@ mf.comp.Input = class extends Form {
         try {
             if (undefined === val) {
                 /* getter */
-                return mofron.func.getLength(this.style('width'));
+                let wret = mf.func.getLength(
+                               this.style('width')
+                           );
+                return ('number' === wret) ? wret + 6 : wret;
             }
-            this.adom().style({
-                'width' : ('number' === typeof val) ? (val-6) + 'px' : val
-            });
             /* setter */
             this.style({
-                'width' : '100%'
+                'width' : ('number' === typeof val) ? (val-6) + 'px' : val
             });
         } catch (e) {
             console.error(e.stack);
@@ -92,31 +87,41 @@ mf.comp.Input = class extends Form {
             let lbl_flg = ('' === this.label().text()) ? false : true;
             if (undefined === val) {
                 /* getter */
-                return (undefined === this.m_height) ? null : this.m_height;
+                let hret = 0;
+                if (true === lbl_flg) {
+                    hret = this.label().height();
+                }
+                hret += mf.func.getLength(
+                    this.style('height')
+                );
+                return ('number' === typeof hret) ? hret+6 : hret;
             }
             /* setter */
             if ('number' !== typeof val) {
                 throw new Error('invalid parameter');
             }
             
-            this.adom().style({ 'height' : val + 'px' });
-            
-            let inp_siz = val;
-            if (true === lbl_flg) {
-                /* exists label */
-                //this.label().size(val/2);
-                inp_siz = val - this.label().size();
-                if (0 > inp_siz) {
-                    throw new Error('invalid size');
-                }
-            }
-            
+            let inp_siz = (true === lbl_flg) ? (val*0.4) : val;
+            inp_siz -= 6;
+            this.label().height(
+                (true === lbl_flg) ? (val*0.6) : undefined
+            );
             this.style({
-                'height'    : (inp_siz - 6) + 'px',
-                'font-size' : (inp_siz - 10) + 'px'
+                'height'    : inp_siz + 'px',
+                'font-size' : (inp_siz - 2) + 'px'
             });
-            
-            this.m_height = val;
+            if (true === lbl_flg) {
+                this.style({ 'position' : 'relative' });
+                let tval = 0;
+                if (40 >= val) {
+                    tval = -8;
+                } else if (50 >= val) {
+                    tval = -4;
+                } else if (60 >= val) {
+                    tval = -2;
+                }
+                this.style({ 'top' : tval + 'px'});
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -207,10 +212,7 @@ mf.comp.Input = class extends Form {
         try {
             if (undefined === lbl) {
                 /* getter */
-                if (undefined === this.m_label) {
-                    this.label('');
-                }
-                return this.m_label;
+                return this.child()[0];
             }
             /* setter */
             if ( !( ('string' === typeof lbl) ||
@@ -218,20 +220,20 @@ mf.comp.Input = class extends Form {
                 throw new Error('invalid parameter');
             }
             
+            let rsiz = false;
+            if (25 === this.height()) {
+                rsiz = true;
+            }
+            
             if ('string' === typeof lbl) {
-                if (undefined === this.m_label) {
-                    this.m_label = new Text(lbl);
-                } else {
-                    this.m_label.text(lbl);
-                }
+                this.label().text(lbl);
             } else {
                 if (0 !== this.child().length) {
                     this.updChild(this.label(), lbl);
                 }
-                this.m_label = lbl;
             }
-            if (('' !== this.label().text()) && (true === this.m_defsiz)) {
-                this.height(this.height()*2);
+            if (true === rsiz) {
+                this.height(56);
             }
         } catch (e) {
             console.error(e.stack);
