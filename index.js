@@ -101,10 +101,10 @@ mf.comp.Input = class extends Form {
                 throw new Error('invalid parameter');
             }
             
-            let inp_siz = (true === lbl_flg) ? (val*0.4) : val;
+            let inp_siz = (true === lbl_flg) ? (val*0.4)+3 : val;
             inp_siz -= 6;
             this.label().height(
-                (true === lbl_flg) ? (val*0.6) : undefined
+                (true === lbl_flg) ? (val*0.6)-3 : undefined
             );
             this.style({
                 'height'    : inp_siz + 'px',
@@ -233,7 +233,7 @@ mf.comp.Input = class extends Form {
                 }
             }
             if (true === rsiz) {
-                this.height(56);
+                this.height(50);
             }
         } catch (e) {
             console.error(e.stack);
