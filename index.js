@@ -240,5 +240,20 @@ mf.comp.Input = class extends Form {
             throw e;
         }
     }
+    
+    isFocused () {
+        try {
+            let chk_id  = document.activeElement.id;
+            let inp_dom = this.adom().child()[0].child()[1];
+            if (chk_id === inp_dom.getId()) {
+                return true;
+            }
+            false;
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
 }
 module.exports = mofron.comp.Input;
+/* end of file */
