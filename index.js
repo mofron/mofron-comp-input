@@ -3,15 +3,15 @@
  * @brief  input component class
  * @author simpart
  */
-let mf = require('mofron');
-let Form = require('mofron-comp-form');
-let Text = require('mofron-comp-text');
+let mf       = require('mofron');
+let FormItem = require('mofron-comp-formitem');
+let Text     = require('mofron-comp-text');
 
-mf.comp.Input = class extends Form {
+mf.comp.Input = class extends FormItem {
     /**
      * initialize inputtext component
      *
-     * @param po : (string) default value
+     * @param po : (string) label
      * @param po : (object) option
      */
     constructor (po) {
@@ -25,33 +25,15 @@ mf.comp.Input = class extends Form {
         }
     }
     
-    addChild (chd, idx) {
-        try {
-            super.addChild(chd, idx, false);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
     initDomConts (prm) {
         try {
-            /* set wrap dom */
-            this.adom().addChild(
-                new mf.Dom('div', this)
-            );
-            var inp = new mf.Dom({
-                          tag    : 'input',
-                          target : this,
-                          attr   : { 'type' : 'text' }
-                      });
-            /* add label */
-            this.addChild(new Text(''));
-            if (undefined !== prm) {
-                this.label(prm);
-            }
-            
-            /* add input */
+            super.initDomConts(prm);
+            /* init input contents */
+            let inp = new mf.Dom({
+                tag    : 'input',
+                target : this,
+                attr   : { 'type' : 'text' }
+            });
             this.target().addChild(inp);
             this.target(inp);
             
@@ -63,19 +45,10 @@ mf.comp.Input = class extends Form {
         }
     }
     
-    width (val) {
+    width (prm) {
         try {
-            if (undefined === val) {
-                /* getter */
-                let wret = mf.func.getLength(
-                               this.style('width')
-                           );
-                return ('number' === wret) ? wret + 6 : wret;
-            }
-            /* setter */
-            this.style({
-                'width' : ('number' === typeof val) ? (val-6) + 'px' : val
-            });
+            let ret = super.width(('number' === typeof prm)? prm-6 : prm);
+            return ('number' === typeof ret)? ret+6 : ret;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -116,9 +89,9 @@ mf.comp.Input = class extends Form {
                 if (40 >= val) {
                     tval = -8;
                 } else if (50 >= val) {
-                    tval = -4;
-                } else if (60 >= val) {
                     tval = -2;
+                } else if (60 >= val) {
+                    tval = -1;
                 }
                 this.style({ 'top' : tval + 'px'});
             }
@@ -140,20 +113,6 @@ mf.comp.Input = class extends Form {
             }
             this.target().prop({value : val});
             this.target().attr({value : val});
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    checkValue () {
-        try {
-            if (true === this.require()) {
-                if ('' === this.value()) {
-                    return ('' === this.label().text()) ? 'empty value' : this.label().text() + ' is required';
-                }
-            }
-            return null;
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -208,47 +167,18 @@ mf.comp.Input = class extends Form {
         }
     }
     
-    label (lbl) {
+    label (prm) {
         try {
-            if (undefined === lbl) {
+            if (undefined === prm) {
                 /* getter */
-                return this.child()[0];
+                return super.label();
             }
             /* setter */
-            if ( !( ('string' === typeof lbl) ||
-                    (true     === mofron.func.isInclude(lbl, 'Text')) ) ) {
-                throw new Error('invalid parameter');
-            }
-            
-            let rsiz = false;
-            if (25 === this.height()) {
-                rsiz = true;
-            }
-            
-            if ('string' === typeof lbl) {
-                this.label().text(lbl);
-            } else {
-                if (0 !== this.child().length) {
-                    this.updChild(this.label(), lbl);
-                }
-            }
+            let rsiz = (25 === this.height())? true : false;
+            super.label(prm);
             if (true === rsiz) {
                 this.height(50);
             }
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    isFocused () {
-        try {
-            let chk_id  = document.activeElement.id;
-            let inp_dom = this.adom().child()[0].child()[1];
-            if (chk_id === inp_dom.getId()) {
-                return true;
-            }
-            false;
         } catch (e) {
             console.error(e.stack);
             throw e;
