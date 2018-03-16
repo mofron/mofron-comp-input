@@ -184,6 +184,26 @@ mf.comp.Input = class extends FormItem {
             throw e;
         }
     }
+    
+    color (prm) {
+        try {
+            let ret = super.color(prm);
+            if (undefined === ret) {
+                /* setter */
+                let rgb = prm.rgba();
+                rgb[0] = (0 > (rgb[0]-30)) ? 0 : rgb[0]-30;
+                rgb[1] = (0 > (rgb[1]-30)) ? 0 : rgb[1]-30;
+                rgb[2] = (0 > (rgb[2]-30)) ? 0 : rgb[2]-30;
+                this.style({
+                    'border-color' : new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle()
+                });
+            }
+            return ret;
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
 }
 module.exports = mofron.comp.Input;
 /* end of file */
