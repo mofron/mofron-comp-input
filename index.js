@@ -45,6 +45,28 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    afterRender () {
+        try {
+            let chg_evt = this.changeEvent();
+            let txt_ara = this;
+            this.target().getRawDom().onkeyup = () => {
+                try {
+                    if (null !== chg_evt) {
+                        for (let idx in chg_evt) {
+                            chg_evt[idx][0](txt_ara, chg_evt[idx][1]);
+                        }
+                    }
+                } catch (e) {
+                    console.error(e.stack);
+                    throw e;
+                }
+            }
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     width (prm) {
         try {
             let ret = super.width(('number' === typeof prm)? prm-6 : prm);
