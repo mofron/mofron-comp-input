@@ -127,7 +127,7 @@ mf.comp.Input = class extends FormItem {
         try {
             if (undefined === val) {
                 /* getter */
-                return this.target().prop('value');
+                return ('' === this.target().prop('value')) ? null : this.target().prop('value');
             }
             /* setter */
             if ( ('string' !== typeof val) &&
