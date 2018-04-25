@@ -38,7 +38,7 @@ mf.comp.Input = class extends FormItem {
             this.target(inp);
             
             /* set default size */
-            this.size(150, 25);
+            this.size(150, 23);
         } catch (e) {
             console.error(e.stack);
             throw e;
