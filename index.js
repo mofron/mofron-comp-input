@@ -30,9 +30,9 @@ mf.comp.Input = class extends FormItem {
             super.initDomConts(prm);
             /* init input contents */
             let inp = new mf.Dom({
-                tag    : 'input',
-                target : this,
-                attr   : { 'type' : 'text' }
+                tag       : 'input',
+                component : this,
+                attr      : { 'type' : 'text' }
             });
             this.target().addChild(inp);
             this.target(inp);
