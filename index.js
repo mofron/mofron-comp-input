@@ -14,20 +14,20 @@ mf.comp.Input = class extends FormItem {
      * @param po : (string) label
      * @param po : (object) option
      */
-    constructor (po) {
+    constructor (po, p2) {
         try {
             super();
             this.name('Input');
-            this.prmOpt(po);
+            this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    initDomConts (prm) {
+    initDomConts (lbl, val) {
         try {
-            super.initDomConts(prm);
+            super.initDomConts(lbl);
             /* init input contents */
             let inp = new mf.Dom({
                 tag       : 'input',
@@ -37,8 +37,9 @@ mf.comp.Input = class extends FormItem {
             this.target().addChild(inp);
             this.target(inp);
             
-            /* set default size */
+            /* set default */
             this.size(150, 23);
+            this.value(val);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -250,6 +251,15 @@ mf.comp.Input = class extends FormItem {
                 });
             }
             return ret;
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    clear () {
+        try {
+            this.text('');
         } catch (e) {
             console.error(e.stack);
             throw e;
