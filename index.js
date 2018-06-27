@@ -32,12 +32,12 @@ mf.comp.Input = class extends FormItem {
             let inp = new mf.Dom({
                 tag       : 'input',
                 component : this,
-                attr      : { 'type' : 'text' }
             });
             this.target().addChild(inp);
             this.target(inp);
             
             /* set default */
+            this.type("text");
             this.size(150, 23);
             this.value(val);
         } catch (e) {
@@ -260,6 +260,29 @@ mf.comp.Input = class extends FormItem {
     clear () {
         try {
             this.text('');
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    type (prm) {
+        try {
+            if (undefined === prm) {
+                /* getter */
+            }
+            /* setter */
+            if ('string' !== typeof prm) {
+                throw new Error('invalid parameter');
+            }
+            this.target().attr({
+                'type' : prm
+            });
+            if ('number' === prm) {
+                this.style({
+                    'text-align' : 'right'
+                })
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
