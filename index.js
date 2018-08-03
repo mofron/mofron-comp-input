@@ -18,6 +18,7 @@ mf.comp.Input = class extends FormItem {
         try {
             super();
             this.name('Input');
+            this.prmMap('label', 'text');
             this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
@@ -236,7 +237,7 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
-    color (prm) {
+    mainColor (prm) {
         try {
             let ret = super.color(prm);
             if (undefined === ret) {
