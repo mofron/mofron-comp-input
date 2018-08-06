@@ -49,6 +49,7 @@ mf.comp.Input = class extends FormItem {
     
     afterRender () {
         try {
+            super.afterRender();
             let chg_evt = this.changeEvent();
             let txt_ara = this;
             this.target().getRawDom().onkeyup = () => {
