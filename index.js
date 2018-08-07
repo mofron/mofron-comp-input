@@ -26,9 +26,9 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
-    initDomConts (lbl, val) {
+    initDomConts () {
         try {
-            super.initDomConts(lbl);
+            super.initDomConts();
             /* init input contents */
             let inp = new mf.Dom({
                 tag       : 'input',
@@ -37,10 +37,9 @@ mf.comp.Input = class extends FormItem {
             this.target().addChild(inp);
             this.target(inp);
             
-            /* set default */
+            /* set default config */
             this.type("text");
-            this.size(150, 23);
-            this.value(val);
+            this.size(1.5, 0.24);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -70,56 +69,31 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
-    width (prm) {
-        try {
-            let ret = super.width(('number' === typeof prm)? prm-6 : prm);
-            return ('number' === typeof ret)? ret+6 : ret;
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
     height (val) {
         try {
             let lbl_flg = ('' === this.label().text()) ? false : true;
             if (undefined === val) {
                 /* getter */
-                let hret = 0;
-                if (true === lbl_flg) {
-                    hret = this.label().height();
-                }
-                hret += mf.func.getLength(
-                    this.style('height')
-                );
-                return ('number' === typeof hret) ? hret+6 : hret;
+                let hret = (true === lbl_flg) ? this.label().size() : 0;
+                hret += mf.func.getSize(this.style('height'), this.sizeType());
+                return hret;
             }
             /* setter */
             if ('number' !== typeof val) {
                 throw new Error('invalid parameter');
             }
             
-            let inp_siz = (true === lbl_flg) ? (val*0.4)+3 : val;
-            inp_siz -= 6;
-            this.label().height(
-                (true === lbl_flg) ? (val*0.6)-3 : undefined
-            );
-            this.style({
-                'height'    : inp_siz + 'px',
-                'font-size' : (inp_siz - 2) + 'px'
-            });
+            let set_val = val;
             if (true === lbl_flg) {
-                this.style({ 'position' : 'relative' });
-                let tval = 0;
-                if (40 >= val) {
-                    tval = -8;
-                } else if (50 >= val) {
-                    tval = -2;
-                } else if (60 >= val) {
-                    tval = -1;
-                }
-                this.style({ 'top' : tval + 'px'});
+                set_val = val / 2;
+                this.label().execOption({
+                    size : set_val
+                });
             }
+            this.style({
+                'height'    : set_val + this.sizeType(),
+                'font-size' : (set_val - 0.05) + this.sizeType()
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -148,15 +122,7 @@ mf.comp.Input = class extends FormItem {
             /* set text config */
             if (true === mf.func.isInclude(val, 'Text')) {
                 /* set text style */
-                let size = val.size();
-                this.style({
-                    'font-size' : ('number' === typeof size)? size + 'px' : size,
-                });
-                if (null !== val.color()) {
-                    this.style({
-                        'color' : val.color().getStyle()
-                    });
-                }
+                /* not supported yet */
             }
             
             /* execute change event */
@@ -176,7 +142,7 @@ mf.comp.Input = class extends FormItem {
         try {
            if (undefined === val) {
                /* getter */
-               return this.text(val);
+               return this.text();
            }
            /* setter */
            this.text(val); 
@@ -227,11 +193,8 @@ mf.comp.Input = class extends FormItem {
                 return super.label();
             }
             /* setter */
-            let rsiz = (25 === this.height())? true : false;
-            super.label(prm);
-            if (true === rsiz) {
-                this.height(50);
-            }
+            this.label().text(prm);
+            this.height(this.height());
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -272,6 +235,7 @@ mf.comp.Input = class extends FormItem {
         try {
             if (undefined === prm) {
                 /* getter */
+                return this.target().attr('type');
             }
             /* setter */
             if ('string' !== typeof prm) {
