@@ -188,13 +188,12 @@ mf.comp.Input = class extends FormItem {
     
     label (prm) {
         try {
-            if (undefined === prm) {
-                /* getter */
-                return super.label();
+            let ret = super.label(prm);
+            if (undefined === ret) {
+                /* setter */
+                this.height(this.height());
             }
-            /* setter */
-            this.label().text(prm);
-            this.height(this.height());
+            return ret;
         } catch (e) {
             console.error(e.stack);
             throw e;
