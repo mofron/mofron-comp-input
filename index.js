@@ -3,9 +3,9 @@
  * @brief  input component class
  * @author simpart
  */
-let mf       = require('mofron');
-let FormItem = require('mofron-comp-formitem');
-let Text     = require('mofron-comp-text');
+const mf       = require('mofron');
+const FormItem = require('mofron-comp-formitem');
+const Text     = require('mofron-comp-text');
 
 mf.comp.Input = class extends FormItem {
     /**
@@ -74,26 +74,33 @@ mf.comp.Input = class extends FormItem {
             let lbl_flg = ('' === this.label().text()) ? false : true;
             if (undefined === val) {
                 /* getter */
-                let hret = (true === lbl_flg) ? this.label().size() : 0;
-                hret += mf.func.getSize(this.style('height'), this.sizeType());
-                return hret;
+                return mf.func.sizeSum(
+                    (true === lbl_flg) ? this.label().size() : 0,
+                    this.style('height')
+                );
             }
             /* setter */
-            if ('number' !== typeof val) {
+            if ('number' === typeof val) {
+                val = (val + '') + this.sizeType();
+            }
+            if ('string' !== typeof val) {
                 throw new Error('invalid parameter');
             }
             
-            let set_val = val;
+            let set_val = mf.func.getSize(val);
             if (true === lbl_flg) {
-                set_val = val / 2;
+                set_val[0] = set_val[0] / 2;
                 this.label().execOption({
-                    size : set_val
+                    size : set_val[0] + set_val[1]
                 });
             }
-            this.style({
-                'height'    : set_val + this.sizeType(),
-                'font-size' : (set_val - 0.05) + this.sizeType()
-            });
+            
+            mf.func.compSize(this, 'height', set_val[0]);
+            mf.func.compSize(
+                this,
+                'font-size',
+                mf.func.sizeDiff(set_val[0], '0.05rem')
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -188,12 +195,14 @@ mf.comp.Input = class extends FormItem {
     
     label (prm) {
         try {
-            let ret = super.label(prm);
-            if (undefined === ret) {
-                /* setter */
-                this.height(this.height());
+            if (undefined === prm) {
+                /* getter */
+                return super.label(prm);
             }
-            return ret;
+            /* setter */
+            let hei = this.height();
+            super.label(prm);
+            this.height(hei);
         } catch (e) {
             console.error(e.stack);
             throw e;
