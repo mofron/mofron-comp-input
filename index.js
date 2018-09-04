@@ -30,114 +30,83 @@ mf.comp.Input = class extends FormItem {
         try {
             super.initDomConts();
             /* init input contents */
-            let inp = new mf.Dom({
-                tag       : 'input',
-                component : this,
-            });
+            let inp = new mf.Dom('input', this);
             this.target().addChild(inp);
             this.target(inp);
             
             /* set default config */
             this.type("text");
-            this.size(1.5, 0.24);
+            this.size('1.5rem', '0.3rem');
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    afterRender () {
+    //afterRender () {
+    //    try {
+    //        super.afterRender();
+    //        let chg_evt = this.changeEvent();
+    //        let txt_ara = this;
+    //        this.target().getRawDom().onkeyup = () => {
+    //            try {
+    //                if (null !== chg_evt) {
+    //                    for (let idx in chg_evt) {
+    //                       chg_evt[idx][0](txt_ara, chg_evt[idx][1]);
+    //                    }
+    //                }
+    //            } catch (e) {
+    //                console.error(e.stack);
+    //                throw e;
+    //            }
+    //        }
+    //    } catch (e) {
+    ///        console.error(e.stack);
+     //       throw e;
+    //    }
+    //}
+    
+    height (prm) {
         try {
-            super.afterRender();
-            let chg_evt = this.changeEvent();
-            let txt_ara = this;
-            this.target().getRawDom().onkeyup = () => {
-                try {
-                    if (null !== chg_evt) {
-                        for (let idx in chg_evt) {
-                            chg_evt[idx][0](txt_ara, chg_evt[idx][1]);
-                        }
-                    }
-                } catch (e) {
-                    console.error(e.stack);
-                    throw e;
+            let sret = super.height(prm);
+            if (undefined === prm) {
+                /* getter */
+                if (true === this.horizon()) {
+                    return sret;
+                } else {
+                    return mf.func.sizeSum(sret, this.target().style('height'));
                 }
             }
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    height (val) {
-        try {
-            let lbl_flg = ('' === this.label().text()) ? false : true;
-            if (undefined === val) {
-                /* getter */
-                return mf.func.sizeSum(
-                    (true === lbl_flg) ? this.label().size() : 0,
-                    this.style('height')
-                );
-            }
             /* setter */
-            if ('number' === typeof val) {
-                val = (val + '') + this.sizeType();
-            }
-            if ('string' !== typeof val) {
-                throw new Error('invalid parameter');
-            }
-            
-            let set_val = mf.func.getSize(val);
-            if (true === lbl_flg) {
-                set_val[0] = set_val[0] / 2;
-                this.label().execOption({
-                    size : set_val[0] + set_val[1]
-                });
-            }
-            
-            mf.func.compSize(this, 'height', set_val[0]);
-            mf.func.compSize(
-                this,
-                'font-size',
-                mf.func.sizeDiff(set_val[0], '0.05rem')
-            );
+            let set_prm = mf.func.getSizeObj(prm);
+            this.target().style({
+                height : (true === this.horizon()) ? set_prm : set_prm.value()/2 + set_prm.type()
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    text (val) {
+    text (prm) {
         try {
-            if (undefined === val) {
+            if (undefined === prm) {
                 /* getter */
                 return ('' === this.target().prop('value')) ? null : this.target().prop('value');
             }
             /* setter */
-            if ( ('string' !== typeof val) &&
-                 (true !== mf.func.isInclude(val, 'Text'))) {
+            if ('string' !== typeof prm) {
                 throw new Error('invalid parameter');
             }
             /* set contents */
-            this.target().prop({
-                value : ('string' === typeof val)? val : val.text()
+            this.target().execOption({
+                prop : { value : prm },
+                attr : { value : prm }
             });
-            this.target().attr({
-                value : ('string' === typeof val)? val : val.text()
-            }); 
-            
-            /* set text config */
-            if (true === mf.func.isInclude(val, 'Text')) {
-                /* set text style */
-                /* not supported yet */
-            }
-            
             /* execute change event */
             let chg_evt = this.changeEvent();
-            if (null !== chg_evt) {
-                for (let idx in chg_evt) {
-                    chg_evt[idx][0](this, chg_evt[idx][1]);
-                }
+            for (let idx in chg_evt) {
+                chg_evt[idx][0](this, chg_evt[idx][1]);
             }
         } catch (e) {
             console.error(e.stack);
@@ -145,15 +114,8 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
-    value (val) {
-        try {
-           if (undefined === val) {
-               /* getter */
-               return this.text();
-           }
-           /* setter */
-           this.text(val); 
-        } catch (e) {
+    value (prm) {
+        try { return this.text(prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -169,7 +131,7 @@ mf.comp.Input = class extends FormItem {
             if ('number' !== typeof len) {
                 throw new Error('invalid parameter');
             }
-            this.target().attr({maxlength : len});
+            this.target().attr({ maxlength : len });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -193,47 +155,45 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
-    label (prm) {
-        try {
-            if (undefined === prm) {
-                /* getter */
-                return super.label(prm);
-            }
-            /* setter */
-            let hei = this.height();
-            super.label(prm);
-            this.height(hei);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
+    //label (prm) {
+    //    try {
+    //        if (undefined === prm) {
+    //            /* getter */
+    //            return super.label(prm);
+    //        }
+    //        /* setter */
+    //        let hei = this.height();
+    //        super.label(prm);
+    //        this.height(hei);
+    //    } catch (e) {
+    //        console.error(e.stack);
+    //        throw e;
+    //    }
+    //}
     
-    mainColor (prm) {
-        try {
-            let ret = super.color(prm);
-            if (undefined === ret) {
-                /* setter */
-                let rgb = prm.rgba();
-                rgb[0] = (0 > (rgb[0]-30)) ? 0 : rgb[0]-30;
-                rgb[1] = (0 > (rgb[1]-30)) ? 0 : rgb[1]-30;
-                rgb[2] = (0 > (rgb[2]-30)) ? 0 : rgb[2]-30;
-                let set_clr = new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle();
-                this.style({
-                    'border-color' : new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle()
-                });
-            }
-            return ret;
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
+    //mainColor (prm) {
+    //    try {
+    //        let ret = super.color(prm);
+    //        if (undefined === ret) {
+    //            /* setter */
+    //            let rgb = prm.rgba();
+    //            rgb[0] = (0 > (rgb[0]-30)) ? 0 : rgb[0]-30;
+    //            rgb[1] = (0 > (rgb[1]-30)) ? 0 : rgb[1]-30;
+    //            rgb[2] = (0 > (rgb[2]-30)) ? 0 : rgb[2]-30;
+    //            let set_clr = new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle();
+    //            this.style({
+    //                'border-color' : new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle()
+    //            });
+    //        }
+    //        return ret;
+    //    } catch (e) {
+    //        console.error(e.stack);
+    //        throw e;
+    //    }
+    //}
     
     clear () {
-        try {
-            this.text('');
-        } catch (e) {
+        try { this.text(''); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -249,13 +209,9 @@ mf.comp.Input = class extends FormItem {
             if ('string' !== typeof prm) {
                 throw new Error('invalid parameter');
             }
-            this.target().attr({
-                'type' : prm
-            });
+            this.target().attr({ 'type' : prm });
             if ('number' === prm) {
-                this.style({
-                    'text-align' : 'right'
-                })
+                this.style({ 'text-align' : 'right' })
             }
         } catch (e) {
             console.error(e.stack);

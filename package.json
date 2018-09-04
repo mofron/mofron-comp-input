@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-input",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "input component for mofron",
   "main": "index.js",
   "scripts": {
