@@ -79,8 +79,10 @@ mf.comp.Input = class extends FormItem {
             }
             /* setter */
             let set_prm = mf.func.getSizeObj(prm);
+            let set_siz = (true === this.horizon()) ? set_prm : set_prm.value()/2 + set_prm.type();
             this.target().style({
-                height : (true === this.horizon()) ? set_prm : set_prm.value()/2 + set_prm.type()
+                'height'    : set_siz,
+                'font-size' : set_siz
             });
         } catch (e) {
             console.error(e.stack);
