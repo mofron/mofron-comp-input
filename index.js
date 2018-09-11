@@ -79,7 +79,10 @@ mf.comp.Input = class extends FormItem {
             }
             /* setter */
             let set_prm = mf.func.getSizeObj(prm);
-            let set_siz = (true === this.horizon()) ? set_prm : set_prm.value()/2 + set_prm.type();
+            let set_siz = set_prm;
+            if ((true !== this.horizon()) && ("" !== this.label().text())) {
+                set_siz = set_prm.value()/2 + set_prm.type();
+            }
             this.target().style({
                 'height'    : set_siz,
                 'font-size' : set_siz
@@ -173,29 +176,43 @@ mf.comp.Input = class extends FormItem {
     //    }
     //}
     
-    //mainColor (prm) {
-    //    try {
-    //        let ret = super.color(prm);
-    //        if (undefined === ret) {
-    //            /* setter */
-    //            let rgb = prm.rgba();
-    //            rgb[0] = (0 > (rgb[0]-30)) ? 0 : rgb[0]-30;
-    //            rgb[1] = (0 > (rgb[1]-30)) ? 0 : rgb[1]-30;
-    //            rgb[2] = (0 > (rgb[2]-30)) ? 0 : rgb[2]-30;
-    //            let set_clr = new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle();
-    //            this.style({
-    //                'border-color' : new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle()
-    //            });
-    //        }
-    //        return ret;
-    //    } catch (e) {
-    //        console.error(e.stack);
-    //        throw e;
-    //    }
-    //}
+    mainColor (prm) {
+        try {
+            let ret = super.color(prm);
+            if (undefined === ret) {
+                /* setter */
+                let rgb = prm.rgba();
+                rgb[0] = (0 > (rgb[0]-30)) ? 0 : rgb[0]-30;
+                rgb[1] = (0 > (rgb[1]-30)) ? 0 : rgb[1]-30;
+                rgb[2] = (0 > (rgb[2]-30)) ? 0 : rgb[2]-30;
+                let set_clr = new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle();
+                this.style({
+                    'border-color' : new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle()
+                });
+            }
+            return ret;
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
     
     clear () {
         try { this.text(''); } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    focus (prm) {
+        try {
+            let ret = super.focus(prm);
+            if ((undefined === ret) && (true === this.target().isPushed())) {
+                /* setter */
+                this.target().getRawDom().select();
+            }
+            return ret;
+        } catch (e) {
             console.error(e.stack);
             throw e;
         }
