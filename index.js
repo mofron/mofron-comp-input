@@ -5,7 +5,6 @@
  */
 const mf       = require('mofron');
 const FormItem = require('mofron-comp-formitem');
-const Text     = require('mofron-comp-text');
 const evStyle  = require('mofron-event-style');
 
 mf.comp.Input = class extends FormItem {
@@ -54,7 +53,7 @@ mf.comp.Input = class extends FormItem {
             
             /* set default config */
             this.type('text');
-            this.size('1.5rem', '0.3rem');
+            this.size('1.5rem', '0.25rem');
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -203,7 +202,7 @@ mf.comp.Input = class extends FormItem {
     focus (prm) {
         try {
             let ret = super.focus(prm);
-            if ((undefined === ret) && (true === this.target().isPushed())) {
+            if ((true === prm) && (true === this.target().isPushed())) {
                 /* setter */
                 this.target().getRawDom().select();
             }
