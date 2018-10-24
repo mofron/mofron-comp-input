@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-input",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "input component for mofron",
   "main": "index.js",
   "scripts": {
@@ -10,11 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/mofron/mofron-comp-input.git"
   },
+  "dependencies": {
+    "mofron-event-style": ""
+  },
   "keywords": [
-    "mofron"
+    "front-end"
   ],
   "author": "simparts",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mofron/mofron-comp-input/issues"
   },

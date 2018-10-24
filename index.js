@@ -1,24 +1,26 @@
 /**
  * @file   mofron-comp-input/index.js
- * @brief  input component class
+ * @brief  input component for mofron
  * @author simpart
  */
 const mf       = require('mofron');
 const FormItem = require('mofron-comp-formitem');
 const Text     = require('mofron-comp-text');
+const evStyle  = require('mofron-event-style');
 
 mf.comp.Input = class extends FormItem {
     /**
      * initialize inputtext component
      *
-     * @param po : (string) label
-     * @param po : (object) option
+     * @param p1 (object) input option
+     * @param p1 (string) label text
+     * @param p2 (string) input value
      */
     constructor (po, p2) {
         try {
             super();
             this.name('Input');
-            this.prmMap('label', 'text');
+            this.prmMap(['label', 'text']);
             this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
@@ -26,6 +28,11 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    /**
+     * initialize dom contents
+     *
+     * @note private method
+     */
     initDomConts () {
         try {
             super.initDomConts();
@@ -34,8 +41,19 @@ mf.comp.Input = class extends FormItem {
             this.target().addChild(inp);
             this.target(inp);
             
+            /* set style event */
+            let sty_ev = (p1, p2, p3) => {
+                try { p1.sizeValue('font-size', mf.func.sizeDiff(p3.height, '0.05rem')); } catch (e) {
+                    console.error(e.stack);
+                    throw e;
+                }
+            };
+            this.event(
+                new evStyle(sty_ev, 'height')
+            );
+            
             /* set default config */
-            this.type("text");
+            this.type('text');
             this.size('1.5rem', '0.3rem');
         } catch (e) {
             console.error(e.stack);
@@ -43,56 +61,27 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
-    //afterRender () {
-    //    try {
-    //        super.afterRender();
-    //        let chg_evt = this.changeEvent();
-    //        let txt_ara = this;
-    //        this.target().getRawDom().onkeyup = () => {
-    //            try {
-    //                if (null !== chg_evt) {
-    //                    for (let idx in chg_evt) {
-    //                       chg_evt[idx][0](txt_ara, chg_evt[idx][1]);
-    //                    }
-    //                }
-    //            } catch (e) {
-    //                console.error(e.stack);
-    //                throw e;
-    //            }
-    //        }
-    //    } catch (e) {
-    ///        console.error(e.stack);
-     //       throw e;
-    //    }
-    //}
-    
-    height (prm) {
+    /**
+     * execute style change event
+     *
+     * @note private method
+     */
+    afterRender () {
         try {
-            let sret = super.height(prm);
-            if (undefined === prm) {
-                /* getter */
-                if (true === this.horizon()) {
-                    return sret;
-                } else {
-                    return mf.func.sizeSum(sret, this.target().style('height'));
-                }
-            }
-            /* setter */
-            let set_prm = mf.func.getSizeObj(prm);
-            let set_siz = set_prm;
-            if ((true !== this.horizon()) && ("" !== this.label().text())) {
-                set_siz = set_prm.value()/2 + set_prm.type();
-            }
-            this.target().style({
-                'height'    : set_siz,
-                'font-size' : set_siz
-            });
+            super.afterRender();
+            this.height(this.height());
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * input test setter/getter
+     *
+     * @param p1 (string) input text
+     * @return p1 (string) input text
+     */
     text (prm) {
         try {
             if (undefined === prm) {
@@ -119,6 +108,12 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    /**
+     * input test setter/getter
+     *
+     * @param p1 (string) input text
+     * @return (string) input text
+     */
     value (prm) {
         try { return this.text(prm); } catch (e) {
             console.error(e.stack);
@@ -126,6 +121,12 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    /**
+     * max value length setter/getter
+     *
+     * @param p1 (number) max length
+     * @return (number) max length
+     */
     maxLength (len) {
         try {
             if (undefined === len) {
@@ -143,60 +144,48 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    /**
+     * secret mode setter/getter
+     *
+     * @param p1 (true) set secret mode
+     * @param p1 (false) set text mode
+     * @return (boolean) input mode
+     */
     secret (flg) {
         try {
             if (undefined === flg) {
                 /* getter */
-                return ('password' === this.target().attr('type')) ? true : false;
+                return ('password' === this.type()) ? true : false;
             }
             /* setter */
             if ('boolean' !== typeof flg) {
                 throw new Error('invalid parameter');
             }
-            this.target().attr({type : 'password'});
+            this.type((true === flg) ? 'password' : 'text');
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    //label (prm) {
-    //    try {
-    //        if (undefined === prm) {
-    //            /* getter */
-    //            return super.label(prm);
-    //        }
-    //        /* setter */
-    //        let hei = this.height();
-    //        super.label(prm);
-    //        this.height(hei);
-    //    } catch (e) {
-    //        console.error(e.stack);
-    //        throw e;
-    //    }
-    //}
-    
+    /**
+     * input border color setter/getter
+     *
+     * @param p1 (string) color name
+     * @param p1 (array) [red(0-255), green(0-255), blue(0-255)]
+     * @param p1 (undefined) call as getter
+     * @return (string) color name
+     */
     mainColor (prm) {
-        try {
-            let ret = super.color(prm);
-            if (undefined === ret) {
-                /* setter */
-                let rgb = prm.rgba();
-                rgb[0] = (0 > (rgb[0]-30)) ? 0 : rgb[0]-30;
-                rgb[1] = (0 > (rgb[1]-30)) ? 0 : rgb[1]-30;
-                rgb[2] = (0 > (rgb[2]-30)) ? 0 : rgb[2]-30;
-                let set_clr = new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle();
-                this.style({
-                    'border-color' : new mf.Color(rgb[0], rgb[1], rgb[2]).getStyle()
-                });
-            }
-            return ret;
-        } catch (e) {
+        try { return this.tgtColor('border-color', prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * clear input value
+     */
     clear () {
         try { this.text(''); } catch (e) {
             console.error(e.stack);
@@ -204,6 +193,13 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    /**
+     * focus input setter/getter
+     *
+     * @param p1 (true) focus input
+     * @param p1 (false) defocus input
+     * @return (boolean) focus status
+     */
     focus (prm) {
         try {
             let ret = super.focus(prm);
@@ -218,6 +214,12 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    /**
+     * input type setter/getter
+     *
+     * @param p1 (string) input type (text, number, password)
+     * @return (string) input type
+     */
     type (prm) {
         try {
             if (undefined === prm) {
