@@ -5,7 +5,7 @@
  */
 const mf       = require('mofron');
 const FormItem = require('mofron-comp-formitem');
-const evStyle  = require('mofron-event-style');
+const Text     = require('mofron-comp-text');
 
 mf.comp.Input = class extends FormItem {
     /**
@@ -41,34 +41,24 @@ mf.comp.Input = class extends FormItem {
             this.target(inp);
             
             /* set style event */
-            let sty_ev = (p1, p2, p3) => {
-                try { p1.sizeValue('font-size', mf.func.sizeDiff(p3.height, '0.05rem')); } catch (e) {
-                    console.error(e.stack);
-                    throw e;
+            inp.styleListener(
+                'height',
+                (p1, p2) => {
+                    try {
+                        p2.style({
+                            'font-size' : mf.func.sizeDiff(p1.height, '0.02rem')
+                        });
+                    } catch (e) {
+                        console.error(e.stack);
+                        throw e;
+                    }
                 }
-            };
-            this.event(
-                new evStyle(sty_ev, 'height')
             );
+            
             
             /* set default config */
             this.type('text');
             this.size('1.5rem', '0.25rem');
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * execute style change event
-     *
-     * @note private method
-     */
-    afterRender () {
-        try {
-            super.afterRender();
-            this.height(this.height());
         } catch (e) {
             console.error(e.stack);
             throw e;
