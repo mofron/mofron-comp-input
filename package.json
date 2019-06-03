@@ -11,6 +11,8 @@
     "url": "git+https://github.com/mofron/mofron-comp-input.git"
   },
   "dependencies": {
+    "mofron-comp-formitem" : "",
+    "mofron-comp-text" : ""
   },
   "keywords": [
     "front-end"
