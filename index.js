@@ -1,6 +1,8 @@
 /**
  * @file   mofron-comp-input/index.js
  * @brief  input component for mofron
+ *         This is component for form items.
+ * @feature Input text size is automatically changed when the height is changed.
  * @author simpart
  */
 const mf       = require('mofron');
@@ -8,18 +10,19 @@ const FormItem = require('mofron-comp-formitem');
 const Text     = require('mofron-comp-text');
 
 mf.comp.Input = class extends FormItem {
+    
     /**
-     * initialize inputtext component
-     *
-     * @param p1 (object) input option
-     * @param p1 (string) label text
-     * @param p2 (string) input value
+     * constructor
+     * 
+     * @param (string) 'label' parameter
+     * @param (string) 'text' parameter
+     * @type private
      */
     constructor (po, p2) {
         try {
             super();
-            this.name('Input');
-            this.prmMap(['label', 'text']);
+            this.name("Input");
+            this.prmMap(["label", "text"]);
             this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
@@ -30,23 +33,26 @@ mf.comp.Input = class extends FormItem {
     /**
      * initialize dom contents
      *
-     * @note private method
+     * @type private
      */
     initDomConts () {
         try {
             super.initDomConts();
             /* init input contents */
-            let inp = new mf.Dom('input', this);
+            let inp = new mf.Dom({
+                          tag: "input", component: this,
+                          attr : { type : "text" }
+                      });
             this.target().addChild(inp);
             this.target(inp);
             
             /* set style event */
             inp.styleListener(
-                'height',
+                "height",
                 (p1, p2) => {
                     try {
                         p2.style({
-                            'font-size' : mf.func.sizeDiff(p1.height, '0.02rem')
+                            "font-size" : mf.func.sizeDiff(p1.height, "0.02rem")
                         });
                     } catch (e) {
                         console.error(e.stack);
@@ -57,8 +63,7 @@ mf.comp.Input = class extends FormItem {
             
             
             /* set default config */
-            this.type('text');
-            this.size('1.5rem', '0.25rem');
+            this.size("1.5rem", "0.25rem");
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -66,10 +71,11 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * input test setter/getter
+     * input text
      *
-     * @param p1 (string) input text
-     * @return p1 (string) input text
+     * @param (string) input text
+     * @return (string) input text
+     * @type tag parameter
      */
     text (prm) {
         try {
@@ -98,10 +104,11 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * input test setter/getter
-     *
-     * @param p1 (string) input text
+     * this function is the same as 'text' function.
+     * 
+     * @param (string) input text
      * @return (string) input text
+     * @type tag parameter
      */
     value (prm) {
         try { return this.text(prm); } catch (e) {
@@ -111,12 +118,13 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * max value length setter/getter
+     * maximum input text length
      *
-     * @param p1 (number) max length
-     * @return (number) max length
+     * @param (number) maximal length
+     * @return (number) maxmal length
+     * @type tag parameter
      */
-    maxLength (len) {
+    maxlength (len) {
         try {
             if (undefined === len) {
                 /* getter */
@@ -134,11 +142,12 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * secret mode setter/getter
+     * secret mode
      *
-     * @param p1 (true) set secret mode
-     * @param p1 (false) set text mode
+     * @param (boolean) true: secret mode (input text is displayed in hiding.)
+     *                  false: normal mode
      * @return (boolean) input mode
+     * @type tag parameter
      */
     secret (flg) {
         try {
@@ -158,12 +167,12 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * input border color setter/getter
+     * border color config
      *
-     * @param p1 (string) color name
-     * @param p1 (array) [red(0-255), green(0-255), blue(0-255)]
-     * @param p1 (undefined) call as getter
-     * @return (string) color name
+     * @param (string) border color (name, hex)
+     *        ([number, number, number, (number)]) r,g,b,(a) 
+     * @return (string) color
+     * @type tag parameter
      */
     mainColor (prm) {
         try { return this.tgtColor('border-color', prm); } catch (e) {
@@ -173,7 +182,9 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * clear input value
+     * clear input text
+     *
+     * @type function
      */
     clear () {
         try { this.text(''); } catch (e) {
@@ -183,11 +194,12 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * focus input setter/getter
+     * focus status
      *
-     * @param p1 (true) focus input
-     * @param p1 (false) defocus input
+     * @param (boolean) true: focus input
+     *                  false: defocus input
      * @return (boolean) focus status
+     * @type tag parameter
      */
     focus (prm) {
         try {
@@ -197,32 +209,6 @@ mf.comp.Input = class extends FormItem {
                 this.target().getRawDom().select();
             }
             return ret;
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * input type setter/getter
-     *
-     * @param p1 (string) input type (text, number, password)
-     * @return (string) input type
-     */
-    type (prm) {
-        try {
-            if (undefined === prm) {
-                /* getter */
-                return this.target().attr('type');
-            }
-            /* setter */
-            if ('string' !== typeof prm) {
-                throw new Error('invalid parameter');
-            }
-            this.target().attr({ 'type' : prm });
-            if ('number' === prm) {
-                this.style({ 'text-align' : 'right' })
-            }
         } catch (e) {
             console.error(e.stack);
             throw e;
