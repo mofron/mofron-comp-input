@@ -1,5 +1,6 @@
 # mofron-comp-input
 input component for [mofron](https://mofron.github.io/mofron/).
+
 [mofron](https://mofron.github.io/mofron/) is module based frontend framework.
 
 ## feature
