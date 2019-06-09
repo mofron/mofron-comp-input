@@ -18,18 +18,17 @@ npm install mofron mofron-comp-input
 ```
 
 # Parameter
-| Simple<br>Param | Parameter Name     | Type                               |    Description                     |
-|:---------------:|:-------------------|:-----------------------------------|:-----------------------------------|
-|        ◯        | label              | string                             | 'label' parameter                  |
-|        ◯        | text               | string                             | input text                         |
-|                 | value              | string                             | 'text' parameter                   |
-|                 | maxlength          | number                             | maximal length                     |
+| Simple<br>Param | Parameter Name     | Type                               |    Description                      |
+|:---------------:|:-------------------|:-----------------------------------|:------------------------------------|
+|        ◯        | label              | string                             | 'label' parameter                   |
+|                 | text               | string                             | input text                          |
+|                 | value              | string                             | 'text' parameter                    |
+|                 | maxlength          | number                             | maximal length                      |
 |                 | secret             | boolean                            | true: secret mode <br>(input text is displayed in hiding.) |
-|                 |                    |                                    | false: normal mode (default)       |
-|                 | mainColor          | string                             | border color (name, hex)           |
-|                 |                    | [number, number, number, (number)] | r,g,b,(a)                          |
-|                 | focus              | boolean                            | true: focus input                  |
-|                 |                    |                                    | false: defocus input               |
+|                 |                    |                                    | false: normal mode (default)        |
+|                 | mainColor          | string/array (color)               | border color (name,hex/[r,g,b,(a)]) |
+|                 | focus              | boolean                            | true: focus input                   |
+|                 |                    |                                    | false: defocus input (default)      |
 
  
 
