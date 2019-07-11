@@ -1,7 +1,7 @@
 /**
- * @file   mofron-comp-input/index.js
- * @brief  input component for mofron
- *         This is component for form items.
+ * @file mofron-comp-input/index.js
+ * @brief input component for mofron
+ *        This is component for form items.
  * @feature Input text size is automatically changed when the height is changed.
  * @author simpart
  */
@@ -51,8 +51,8 @@ mf.comp.Input = class extends FormItem {
                 "height",
                 (p1, p2) => {
                     try {
-                        p2.style({
-                            "font-size" : mf.func.sizeDiff(p1.height, "0.02rem")
+                        p1.style({
+                            "font-size" : mf.func.sizeDiff(p2.height, "0.02rem")
                         });
                     } catch (e) {
                         console.error(e.stack);
@@ -108,7 +108,7 @@ mf.comp.Input = class extends FormItem {
      * 
      * @param (string) input text
      * @return (string) input text
-     * @type tag parameter
+     * @type parameter
      */
     value (prm) {
         try { return this.text(prm); } catch (e) {
@@ -122,7 +122,7 @@ mf.comp.Input = class extends FormItem {
      *
      * @param (number) maximal length
      * @return (number) maxmal length
-     * @type tag parameter
+     * @type parameter
      */
     maxlength (len) {
         try {
@@ -147,7 +147,7 @@ mf.comp.Input = class extends FormItem {
      * @param (boolean) true: secret mode (input text is displayed in hiding.)
      *                  false: normal mode
      * @return (boolean) input mode
-     * @type tag parameter
+     * @type parameter
      */
     secret (flg) {
         try {
@@ -172,7 +172,7 @@ mf.comp.Input = class extends FormItem {
      * @param (string) border color (name, hex)
      *        ([number, number, number, (number)]) r,g,b,(a) 
      * @return (string) color
-     * @type tag parameter
+     * @type parameter
      */
     mainColor (prm) {
         try { return this.tgtColor('border-color', prm); } catch (e) {
@@ -199,7 +199,7 @@ mf.comp.Input = class extends FormItem {
      * @param (boolean) true: focus input
      *                  false: defocus input
      * @return (boolean) focus status
-     * @type tag parameter
+     * @type parameter
      */
     focus (prm) {
         try {
