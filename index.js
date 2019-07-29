@@ -16,6 +16,7 @@ mf.comp.Input = class extends FormItem {
      * 
      * @param (string) 'label' parameter
      * @param (string) 'text' parameter
+     * @pmap label,text
      * @type private
      */
     constructor (po, p2) {
@@ -103,6 +104,13 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    /**
+     * set font family
+     *
+     * @param (string) font name
+     * @return (string) font name
+     * @type parameter
+     */
     font (prm) {
         try {
             if (undefined === prm) {
