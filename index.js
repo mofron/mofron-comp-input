@@ -168,7 +168,7 @@ mf.comp.Input = class extends FormItem {
     /**
      * secret mode
      *
-     * @param (boolean) true: secret mode (input text is displayed in hiding.)
+     * @param (boolean) true: secret mode [input text is displayed in hiding.]
      *                  false: normal mode
      * @return (boolean) input mode
      * @type parameter
@@ -193,13 +193,12 @@ mf.comp.Input = class extends FormItem {
     /**
      * border color config
      *
-     * @param (string) border color (name, hex)
-     *        ([number, number, number, (number)]) r,g,b,(a) 
+     * @param (color) border color
      * @return (string) color
      * @type parameter
      */
     mainColor (prm) {
-        try { return this.tgtColor('border-color', prm); } catch (e) {
+        try { return mf.func.cmpColor('border-color', prm); } catch (e) {
             console.error(e.stack);
             throw e;
         }
