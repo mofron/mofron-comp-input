@@ -103,6 +103,22 @@ mf.comp.Input = class extends FormItem {
         }
     }
     
+    font (prm) {
+        try {
+            if (undefined === prm) {
+                return this.style("font-family");
+            }
+            /* setter */
+            if ("string" !== typeof prm) {
+                throw new Error("invalid parameter");
+            }
+            this.style({ "font-family": prm });
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     /**
      * this function is the same as 'text' function.
      * 
