@@ -191,6 +191,19 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
+     * type attribute
+     *
+     * @param (string) type value ["password","text"]
+     * @type private
+     */
+    type (prm) {
+        try { return this.target().attr("type", prm); } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    /**
      * border color config
      *
      * @param (color) border color
