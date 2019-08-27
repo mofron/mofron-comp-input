@@ -14,8 +14,9 @@ mf.comp.Input = class extends FormItem {
     /**
      * constructor
      * 
-     * @param (string) 'label' parameter
-     * @param (string) 'text' parameter
+     * @param (mixed) label parameter
+     *                object: component option
+     * @param (string) text parameter
      * @pmap label,text
      * @type private
      */
@@ -53,7 +54,7 @@ mf.comp.Input = class extends FormItem {
                 (p1, p2) => {
                     try {
                         p1.style({
-                            "font-size" : mf.func.sizeDiff(p2.height, "0.02rem")
+                            "font-size" : mf.func.sizeDiff(p2.height, "0.06rem")
                         });
                     } catch (e) {
                         console.error(e.stack);
@@ -61,8 +62,6 @@ mf.comp.Input = class extends FormItem {
                     }
                 }
             );
-            
-            
             /* set default config */
             this.size("1.5rem", "0.25rem");
         } catch (e) {
@@ -76,7 +75,7 @@ mf.comp.Input = class extends FormItem {
      *
      * @param (string) input text
      * @return (string) input text
-     * @type tag parameter
+     * @type parameter
      */
     text (prm) {
         try {
@@ -168,7 +167,7 @@ mf.comp.Input = class extends FormItem {
     /**
      * secret mode
      *
-     * @param (boolean) true: secret mode [input text is displayed in hiding.]
+     * @param (boolean) true: secret mode (input text is displayed in hiding.)
      *                  false: normal mode
      * @return (boolean) input mode
      * @type parameter
@@ -204,14 +203,16 @@ mf.comp.Input = class extends FormItem {
     }
     
     /**
-     * border color config
+     * border color
      *
-     * @param (color) border color
+     * @param (mixed (color)) string: border color name, #hex
+     *                        array: [red, green, blue, (alpha)]
+     * @param (option) style option
      * @return (string) color
      * @type parameter
      */
-    mainColor (prm) {
-        try { return mf.func.cmpColor('border-color', prm); } catch (e) {
+    mainColor (prm,opt) {
+        try { return mf.func.cmpColor('border-color', [prm,opt]); } catch (e) {
             console.error(e.stack);
             throw e;
         }

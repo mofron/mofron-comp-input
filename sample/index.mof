@@ -1,4 +1,7 @@
 <require>
   <tag module="mofron-comp-input">Input</tag>
 </require>
-<Input text="input:" horizon=true>component</Input>
+
+<Input label="input:" horizon=true>
+    <text>componet</text>
+</Input>

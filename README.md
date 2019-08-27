@@ -18,21 +18,24 @@ npm install mofron mofron-comp-input
 <require>
   <tag module="mofron-comp-input">Input</tag>
 </require>
-<Input text="input:" horizon=true>component</Input>
+
+<Input label="input:" horizon=true>
+    <text>componet</text>
+</Input>
 ```
 # Parameter
 
 |Simple<br>Param | Parameter Name | Type | Description |
 |:--------------:|:---------------|:-----|:------------|
-| ◯  | label | string | 'label' parameter |
-| ◯  | text | string | input text |
+| | text | string | input text |
 | | font | string | font name |
 | | value | string | input text |
 | | maxlength | number | maximal length |
-| | secret | boolean) true: secret mode (input text is displayed in hiding. | undefined |
+| | secret | boolean | true: secret mode (input text is displayed in hiding.) |
 | | | | false: normal mode |
-| | mainColor | string) border color (name, hex | undefined |
-| | | [number, number, number, (number)]) r,g,b,(a |  |
+| | mainColor | mixed (color) | string: border color name, #hex |
+| | | | array: [red, green, blue, (alpha)] |
+| | | option | style option |
 | | focus | boolean | true: focus input |
 | | | | false: defocus input |
 
