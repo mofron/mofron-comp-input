@@ -251,6 +251,61 @@ mf.comp.Input = class extends FormItem {
             throw e;
         }
     }
+    
+    /**
+     * input height
+     * 
+     * @param (string (size)) input height
+     * @param (option) style option
+     * @return (string (size)) input height
+     * @type parameter
+     */
+    height (prm, opt) {
+        try {
+            let ret = super.height(prm, opt);
+	    if ((undefined === prm) && ("string" === typeof ret)) {
+                return mf.func.sizeSum(ret, this.sizeWeight());
+	    }
+	} catch (e) {
+	    console.error(e.stack);
+            throw e;
+	}
+    }
+    
+    /**
+     * input width
+     *
+     * @param (string (size)) input width
+     * @param (option) style option
+     * @return (string (size)) input width
+     * @type parameter
+     */
+    width (prm, opt) {
+        try {
+            let ret = super.width(prm, opt);
+            if ((undefined === prm) && ("string" === typeof ret)) {
+                return mf.func.sizeSum(ret, this.sizeWeight());
+            }
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    /**
+     * size weight value
+     * use for size calculate
+     * 
+     * @param (string (size)) size weight
+     * @param (string (size)) size weight
+     * @type private
+     */
+    sizeWeight (prm) {
+        try { return this.member("sizeWeight", "size", prm, "0.06rem"); } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
 }
 module.exports = mofron.comp.Input;
 /* end of file */

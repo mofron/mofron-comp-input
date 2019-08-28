@@ -38,4 +38,8 @@ npm install mofron mofron-comp-input
 | | | option | style option |
 | | focus | boolean | true: focus input |
 | | | | false: defocus input |
+| | height | string (size) | input height |
+| | | option | style option |
+| | width | string (size) | input width |
+| | | option | style option |
 
