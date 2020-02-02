@@ -16,12 +16,10 @@ npm install mofron mofron-comp-input
 # Sample
 ```html
 <require>
-  <tag module="mofron-comp-input">Input</tag>
+  <tag load="mofron-comp-input">Input</tag>
 </require>
 
-<Input label="input:" horizon=true>
-    <text>componet</text>
-</Input>
+<Input label="input:" horizon=true>componet</Input>
 ```
 
 # Parameter

@@ -18,14 +18,14 @@ module.exports = class extends FormItem {
      * 
      * @param (mixed) short-form parameter
      *                key-value: component config
-     * @short label,text
+     * @short text
      * @type private
      */
     constructor (prm) {
         try {
             super();
             this.name("Input");
-            this.shortForm("label", "text");
+            this.shortForm("text");
             /* init config */
 	    this.confmng().add("sizeOffset",  { type: "size", init: "0.06rem" });
 	    this.confmng().add("text", { type: "string" });
