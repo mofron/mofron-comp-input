@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-input",
-  "version": "0.8.13",
+  "version": "0.9.0",
   "description": "input component for mofron",
   "main": "index.js",
   "scripts": {
@@ -12,10 +12,11 @@
   },
   "dependencies": {
     "mofron-comp-formitem" : "",
-    "mofron-comp-text" : ""
+    "mofron-comp-text" : "",
+    "mofron-event-key" : ""
   },
   "keywords": [
-    "front-end"
+    "front-end","mofron"
   ],
   "author": "simparts",
   "license": "MIT",
