@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-input",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "input component for mofron",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "dependencies": {
     "mofron-comp-formitem" : "",
     "mofron-comp-text" : "",
-    "mofron-event-key" : ""
+    "mofron-effect-font" : ""
   },
   "keywords": [
     "front-end","mofron"

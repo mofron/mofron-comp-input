@@ -7,7 +7,6 @@
  */
 const FormItem = require('mofron-comp-formitem');
 const Text     = require('mofron-comp-text');
-const Key      = require('mofron-event-key');
 const Font     = require('mofron-effect-font');
 const comutl   = mofron.util.common;
 const cmputl   = mofron.util.component;
