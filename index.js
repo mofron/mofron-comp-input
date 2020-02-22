@@ -27,7 +27,6 @@ module.exports = class extends FormItem {
             this.shortForm("text");
             /* init config */
 	    this.confmng().add("sizeOffset",  { type: "size", init: "0.06rem" });
-	    this.confmng().add("text", { type: "string" });
 	    this.confmng().add("txtbuf", { type: "string" });
             /* set config */
 	    if (undefined !== prm) {
@@ -59,7 +58,7 @@ module.exports = class extends FormItem {
                 try {
 		    let txt = p1.text();
 		    if (true === p2) {
-                        this.confmng("txtbuf", txt);
+                        this.confmng("txtbuf", (null === txt) ? "" : txt);
 		    } else if (txt !== this.confmng("txtbuf")) {
                         let cevt = p1.changeEvent();
                         for (let cidx in cevt) {
@@ -92,10 +91,19 @@ module.exports = class extends FormItem {
      */
     text (prm) {
         try {
-	    let ret = this.childDom().props(
-                (undefined === prm) ? 'value' : { value: prm }
-	    );
-	    return (null === ret) ? "" : ret;
+	    if (undefined === prm) {
+                /* getter */
+		return this.childDom().props("value");
+	    }
+	    /* setter */
+	    if ("string" !== typeof prm) {
+                throw new Error("invalid parameter");
+	    }
+	    this.childDom().props({ value: prm });
+	    let chg_evt = this.changeEvent();
+            for (let cidx in chg_evt) {
+                chg_evt[cidx].exec(this, prm);
+	    }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -107,7 +115,7 @@ module.exports = class extends FormItem {
      *
      * @param (string) primary font name
      *                 undefined: call as getter
-     * @param (string) secondary font name (not required)
+     * @param (string) secondary font name
      * @return (array) font name [primary, secondary]
      * @type parameter
      */
@@ -223,7 +231,7 @@ module.exports = class extends FormItem {
      * @param (mixed (color)) string: border color name, #hex
      *                        array: [red, green, blue, (alpha)]
      *                        undefined: call as getter
-     * @param (key-value) style option (not required)
+     * @param (key-value) style option
      * @return (string) color
      * @type parameter
      */
@@ -278,7 +286,7 @@ module.exports = class extends FormItem {
      * 
      * @param (string (size)) input height
      *                        undefined: call as getter
-     * @param (key-value) style option (not required)
+     * @param (key-value) style option
      * @return (mixed) string: input height
      *                 null: not set
      * @type parameter
@@ -304,7 +312,7 @@ module.exports = class extends FormItem {
      *
      * @param (string (size)) input width
      *                        undefined: call as getter
-     * @param (key-value) style option (not required)
+     * @param (key-value) style option
      * @return (mixed) string: input width
      *                 null: not set
      * @type parameter
