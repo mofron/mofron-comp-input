@@ -7,7 +7,6 @@
  */
 const FormItem = require('mofron-comp-formitem');
 const Text     = require('mofron-comp-text');
-const Font     = require('mofron-effect-font');
 const comutl   = mofron.util.common;
 const cmputl   = mofron.util.component;
 
@@ -23,7 +22,7 @@ module.exports = class extends FormItem {
     constructor (prm) {
         try {
             super();
-            this.name("Input");
+            this.modname("Input");
             this.shortForm("text");
             /* init config */
 	    this.confmng().add("sizeOffset",  { type: "size", init: "0.06rem" });
@@ -71,7 +70,7 @@ module.exports = class extends FormItem {
 		}
 	    });
 	    
-            this.effect(new Font({ tag: "Input", suspend: true }));
+            //this.effect(new Font({ tag: "Input", suspend: true }));
 
             /* set default size */
             this.size("1.5rem", "0.25rem");
@@ -119,16 +118,22 @@ module.exports = class extends FormItem {
      * @return (array) font name [primary, secondary]
      * @type parameter
      */
-    font (p1, p2) {
+    font () {
         try {
-	    let font = this.effect({ name: "Font", tag: "Input" });
-	    if (undefined === p1) {
+            if (0 === arguments.length) {
                 /* getter */
-                return font.fname();
-	    }
-	    /* setter */
-	    font.suspend(false);
-            font.fname(p1,p2);
+                return this.style("font-family");
+            }
+            /* setter */
+            let set_fnt = "";
+            for (let aidx=0;aidx < arguments.length; aidx++) {
+                if ("string" !== typeof arguments[aidx]) {
+                    throw new Error("invalid parameter");
+                }
+                set_fnt += arguments[aidx] + ",";
+            }
+            set_fnt = set_fnt.substring(0, set_fnt.length-1);
+            this.style({ "font-family": set_fnt });
         } catch (e) {
             console.error(e.stack);
             throw e;

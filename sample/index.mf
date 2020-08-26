@@ -1,5 +1,5 @@
-<require>
+<setting>
   <tag load="mofron-comp-input">Input</tag>
-</require>
+</setting>
 
 <Input label="input:" horizon=true>componet</Input>

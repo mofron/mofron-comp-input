@@ -15,9 +15,9 @@ npm install mofron mofron-comp-input
 
 # Sample
 ```html
-<require>
+<setting>
   <tag load="mofron-comp-input">Input</tag>
-</require>
+</setting>
 
 <Input label="input:" horizon=true>componet</Input>
 ```
@@ -42,8 +42,7 @@ npm install mofron mofron-comp-input
 | | | | array: [red, green, blue, (alpha)] |
 | | | | undefined: call as getter |
 | | | key-value | style option |
-| | clear | ||
-| | focus | boolean | true: focus input |
+| | clear | ||| | focus | boolean | true: focus input |
 | | | | false: defocus input |
 | | | | undefined: call as getter |
 | | height | string (size) | input height |
