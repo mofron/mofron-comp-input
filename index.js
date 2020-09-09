@@ -324,15 +324,24 @@ module.exports = class extends FormItem {
      */
     width (prm, opt) {
         try {
+	    let siz = null;
             if (undefined === prm) {
                 /* getter */
-                return comutl.sizesum(prm, this.sizeOffset());
+                try {
+                    return comutl.sizesum(super.width(), this.sizeOffset());
+                } catch (e) {
+                    return super.width();
+                }
             }
             /* setter */
-            super.width(
-                comutl.sizediff(prm, this.sizeOffset()),
-		opt
-            );
+            try {
+                let wid = comutl.sizediff(prm, this.sizeOffset());
+                this.rootDom()[0].style({ "width" : wid });
+                super.width(wid);
+            } catch (e) {
+                this.rootDom()[0].style({ "width" : prm });
+                super.width(prm);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
