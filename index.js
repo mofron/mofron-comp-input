@@ -70,8 +70,7 @@ module.exports = class extends FormItem {
 		}
 	    });
 	    
-            //this.effect(new Font({ tag: "Input", suspend: true }));
-
+            this.rootDom()[0].style({ 'align-items' : 'center' });
             /* set default size */
             this.size("1.5rem", "0.25rem");
         } catch (e) {
@@ -334,14 +333,7 @@ module.exports = class extends FormItem {
                 }
             }
             /* setter */
-            try {
-                let wid = comutl.sizediff(prm, this.sizeOffset());
-                this.rootDom()[0].style({ "width" : wid });
-                super.width(wid);
-            } catch (e) {
-                this.rootDom()[0].style({ "width" : prm });
-                super.width(prm);
-            }
+            super.width(prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
