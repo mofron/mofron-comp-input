@@ -52,6 +52,7 @@ module.exports = class extends FormItem {
                       });
             this.childDom().child(inp);
             this.childDom(inp);
+	    this.styleDom(inp);
 
 	    this.focusEvent((p1,p2) => {
                 try {
@@ -61,7 +62,7 @@ module.exports = class extends FormItem {
 		    } else if (txt !== this.confmng("txtbuf")) {
                         let cevt = p1.changeEvent();
                         for (let cidx in cevt) {
-                            cevt[cidx].exec(p1,txt);
+                            cevt[cidx][0](p1,txt,cevt[cidx][1]);
 			}
 		    }
 		} catch (e) {
@@ -77,6 +78,17 @@ module.exports = class extends FormItem {
             console.error(e.stack);
             throw e;
         }
+    }
+    
+    beforeRender () {
+        try {
+	    super.beforeRender();
+            if (true === this.horizon()) {
+                this.label().size(comutl.sizediff(this.height(),this.sizeOffset()));
+            }
+	} catch (e) {
+            
+	}
     }
     
     /**
@@ -100,7 +112,7 @@ module.exports = class extends FormItem {
 	    this.childDom().props({ value: prm });
 	    let chg_evt = this.changeEvent();
             for (let cidx in chg_evt) {
-                chg_evt[cidx].exec(this, prm);
+                chg_evt[cidx][0](this, prm, chg_evt[cidx][1]);
 	    }
         } catch (e) {
             console.error(e.stack);
@@ -150,6 +162,9 @@ module.exports = class extends FormItem {
      */
     value (prm) {
         try {
+	    if ((undefined !== prm) && ("string" !== typeof prm)) {
+                prm = prm + "";
+	    }
 	    return this.text(prm);
 	} catch (e) {
             console.error(e.stack);
@@ -299,7 +314,7 @@ module.exports = class extends FormItem {
         try {
             if (undefined === prm) {
                 /* getter */
-                return comutl.sizesum(prm, this.sizeOffset());
+                return comutl.sizesum(super.height(), this.sizeOffset());
 	    }
 	    /* setter */
 	    let set_siz = comutl.sizediff(prm, this.sizeOffset())
@@ -333,7 +348,7 @@ module.exports = class extends FormItem {
                 }
             }
             /* setter */
-            super.width(prm);
+	    this.styleDom().style({ width: prm },opt);
         } catch (e) {
             console.error(e.stack);
             throw e;
