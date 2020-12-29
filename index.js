@@ -7,6 +7,7 @@
  */
 const FormItem = require('mofron-comp-formitem');
 const Text     = require('mofron-comp-text');
+const Border   = require('mofron-effect-border');
 const comutl   = mofron.util.common;
 const cmputl   = mofron.util.component;
 
@@ -53,27 +54,30 @@ module.exports = class extends FormItem {
             this.childDom().child(inp);
             this.childDom(inp);
 	    this.styleDom(inp);
-
-	    this.focusEvent((p1,p2) => {
+            
+	    let pvt = { private:true };
+	    this.effect(new Border(), pvt);
+	    let fcs = (p1,p2) => {
                 try {
-		    let txt = p1.text();
-		    if (true === p2) {
+                    let txt = p1.text();
+                    if (true === p2) {
                         this.confmng("txtbuf", (null === txt) ? "" : txt);
-		    } else if (txt !== this.confmng("txtbuf")) {
+                    } else if (txt !== this.confmng("txtbuf")) {
                         let cevt = p1.changeEvent();
                         for (let cidx in cevt) {
                             cevt[cidx][0](p1,txt,cevt[cidx][1]);
-			}
-		    }
-		} catch (e) {
-		    console.error(e.stack);
+                        }
+                    }
+                } catch (e) {
+                    console.error(e.stack);
                     throw e;
-		}
-	    });
-	    
+                }
+            };
+	    this.confmng("focusEvent", [fcs,true], pvt);
             this.rootDom()[0].style({ 'align-items' : 'center' });
             /* set default size */
-            this.size("1.5rem", "0.25rem");
+            this.width("1.5rem", pvt);
+	    this.height("0.25rem", pvt);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -254,9 +258,9 @@ module.exports = class extends FormItem {
      * @return (string) color
      * @type parameter
      */
-    mainColor (prm,opt) {
+    mainColor (prm) {
         try {
-	    return cmputl.color('border-color', prm, opt);
+	    return this.effect({ modname: "Border" }).color(prm);
 	} catch (e) {
             console.error(e.stack);
             throw e;
