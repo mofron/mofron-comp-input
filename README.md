@@ -38,7 +38,11 @@ npm install mofron mofron-comp-input
 | | secret | boolean | true: secret mode (input text is displayed in hiding.) |
 | | | | false: normal mode |
 | | | | undefined: call as getter |
-| | mainColor | mixed (color) | string: border color name, #hex |
+| | mainColor | mixed (color) | string: text color name, #hex |
+| | | | array: [red, green, blue, (alpha)] |
+| | | | undefined: call as getter |
+| | | key-value | style option |
+| | accentColor | mixed (color) | string: border color name, #hex |
 | | | | array: [red, green, blue, (alpha)] |
 | | | | undefined: call as getter |
 | | | key-value | style option |

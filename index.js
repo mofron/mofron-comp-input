@@ -28,6 +28,8 @@ module.exports = class extends FormItem {
             /* init config */
 	    this.confmng().add("sizeOffset",  { type: "size", init: "0.06rem" });
 	    this.confmng().add("txtbuf", { type: "string" });
+	    this.confmng().add("type", { type:"string", init:"text" });
+            
             /* set config */
 	    if (undefined !== prm) {
                 this.config(prm);
@@ -49,7 +51,6 @@ module.exports = class extends FormItem {
             /* init input contents */
             let inp = new mofron.class.Dom({
                           tag: "input", component: this,
-                          attrs : { type : "text" }
                       });
             this.childDom().child(inp);
             this.childDom(inp);
@@ -239,9 +240,30 @@ module.exports = class extends FormItem {
      */
     type (prm) {
         try {
+	    this.confmng("type",prm);
 	    return this.childDom().attrs(
 	        (undefined === prm) ? "type": { "type" : prm }
             );
+	} catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    /**
+     * text color setter/getter
+     *
+     * @param (mixed (color)) string: text color name, #hex
+     *                        array: [red, green, blue, (alpha)]
+     *                        undefined: call as getter
+     * @param (key-value) style option
+     * @return (string) color
+     * @type parameter
+     */
+    mainColor (prm,opt) {
+        try {
+	    super.mainColor(prm);
+	    return cmputl.color(this, "color", prm, opt);
 	} catch (e) {
             console.error(e.stack);
             throw e;
@@ -258,9 +280,10 @@ module.exports = class extends FormItem {
      * @return (string) color
      * @type parameter
      */
-    mainColor (prm) {
+    accentColor (prm,opt) {
         try {
-	    return this.effect({ modname: "Border" }).color(prm);
+	    super.accentColor(prm,opt);
+            return this.effect({ modname: "Border" }).color(prm);
 	} catch (e) {
             console.error(e.stack);
             throw e;
