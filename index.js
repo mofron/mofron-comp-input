@@ -54,6 +54,7 @@ module.exports = class extends FormItem {
                       });
             this.childDom().child(inp);
             this.childDom(inp);
+	    this.inputDom = inp;
 	    this.styleDom(inp);
             
 	    let pvt = { private:true };
@@ -92,7 +93,8 @@ module.exports = class extends FormItem {
                 this.label().size(comutl.sizediff(this.height(),this.sizeOffset()));
             }
 	} catch (e) {
-            
+            console.error(e.stack);
+	    throw e;
 	}
     }
     
@@ -108,13 +110,13 @@ module.exports = class extends FormItem {
         try {
 	    if (undefined === prm) {
                 /* getter */
-		return this.childDom().props("value");
+		return this.inputDom.props("value");
 	    }
 	    /* setter */
 	    if ("string" !== typeof prm) {
                 throw new Error("invalid parameter");
 	    }
-	    this.childDom().props({ value: prm });
+	    this.inputDom.props({ value: prm });
 	    let chg_evt = this.changeEvent();
             for (let cidx in chg_evt) {
                 chg_evt[cidx][0](this, prm, chg_evt[cidx][1]);
@@ -190,13 +192,13 @@ module.exports = class extends FormItem {
         try {
             if (undefined === len) {
                 /* getter */
-                return this.childDom().attrs('maxlength');
+                return this.inputDom.attrs('maxlength');
             }
             /* setter */
             if ('number' !== typeof len) {
                 throw new Error('invalid parameter');
             }
-            this.childDom().attrs({ maxlength : len });
+            this.inputDom.attrs({ maxlength : len });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -316,9 +318,9 @@ module.exports = class extends FormItem {
     focus (prm) {
         try {
             let ret = super.focus(prm);
-            if ((true === prm) && (true === this.childDom().isPushed())) {
+            if ((true === prm) && (true === this.inputDom.isPushed())) {
                 /* setter */
-                this.childDom().getRawDom().select();
+                this.inputDom.getRawDom().select();
             }
             return ret;
         } catch (e) {
@@ -341,12 +343,12 @@ module.exports = class extends FormItem {
         try {
             if (undefined === prm) {
                 /* getter */
-                return comutl.sizesum(super.height(), this.sizeOffset());
+                return super.height(); //comutl.sizesum(super.height(), this.sizeOffset());
 	    }
 	    /* setter */
 	    let set_siz = comutl.sizediff(prm, this.sizeOffset())
             super.height(set_siz, opt);
-            this.style({ "font-size" : set_siz });
+            this.style({ "font-size" : comutl.sizediff(set_siz, "0.05rem") });
 	} catch (e) {
 	    console.error(e.stack);
             throw e;
