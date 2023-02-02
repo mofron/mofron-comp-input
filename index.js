@@ -251,7 +251,16 @@ module.exports = class extends FormItem {
             throw e;
         }
     }
-    
+
+    inputAttrs (prm) {
+        try {
+            this.childDom().attrs(prm);
+	} catch (e) {
+            console.error(e.stack);
+            throw e;
+	}
+    }
+
     /**
      * text color setter/getter
      *
